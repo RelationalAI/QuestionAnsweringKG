@@ -1,5 +1,4 @@
-# QirK: Question Answering via Intermediate Representation on Knowledge Graphs
-## Implementation on Snowflake with RelationalAI
+# KGQA: Question Answering on Knowledge Graphs Using RelationalAI and Snowflake Cortex AI
 
 [Here]('https://github.com/jlscheerer/kgqa/tree/main') is the link to the original implementation from the paper [QirK: Question Answering via Intermediate Representation on Knowledge Graphs]('https://arxiv.org/abs/2408.07494'). 
 

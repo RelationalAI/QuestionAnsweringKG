@@ -2,6 +2,18 @@
 
 Follow the below steps to launch End-to-End pipeline as a Service on Snowflake and interact with it.
 
+
+ 
+### SETTING THE ENVIRONMENT VARIABLES
+
+**<your_project_repository> is the path to the local directory where <git_repo> has been cloned.**
+
+
+```sh
+export SETUP_PATH="<your_project_directory>/kgqa_demo_setup/kgqa_setup"
+```
+
+
 ### STEP 1 : Navigate to the KGQA_DOCKER FOLDER
 ```sh
 cd <your_project_directory>/kgqa_docker/

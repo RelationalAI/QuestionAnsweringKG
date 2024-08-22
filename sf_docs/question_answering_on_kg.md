@@ -1,7 +1,7 @@
 
 # KGQA: Question Answering on Knowledge Graphs Using RelationalAI and Snowflake Cortex AI
 
-Our work is an adaptation of [QirK: Question Answering via Intermediate Representation on Knowledge Graphs]('https://arxiv.org/abs/2408.07494')
+[Here]('https://github.com/jlscheerer/kgqa/tree/main') is the link to the original implementation from the paper [QirK: Question Answering via Intermediate Representation on Knowledge Graphs]('https://arxiv.org/abs/2408.07494'). 
 
 <!-- ------------------------ -->
 
@@ -40,16 +40,13 @@ Users can build a knowledge graph using Python and materialize it on top of thei
     - Role "kgqa_public" in their snowflake account, which has ownership and usage access similar to "accountadmin". Follows ths steps mentioned [here](https://docs.snowflake.com/en/user-guide/security-access-control-configure#create-a-role) to create a new role. 
 - Basic knowledge of using a Snowflake SQL Worksheet and Jupyter Notebook
 - [Snowflake privileges on your user to install a Native Application](https://other-docs.snowflake.com/en/native-apps/consumer-installing#set-up-required-privileges)
-- The [RAI KGQA Jupyter notebook](<link to notebook>) used in this quickstart 
+- The [RAI KGQA Jupyter notebook](../kgqa_demo_setup/kgqa_demo_nb/kgqa_demo.ipynb) used in this quickstart 
 - [Docker Setup](https://docs.docker.com/desktop/install/mac-install/)
 
 
 ### What You’ll Build
 - A Question Answering System on Knowledge Graphs using RelationalAI and Snowflake Cortex AI
 
-<!-- ------------------------ -->
-## TODO List
-[] Update all the links as per git repository  
 
 <!-- ------------------------ -->
 
@@ -169,7 +166,7 @@ In case you encounter any of the following issues, please follow the recommended
 
 1. **Server Overload Error**
    If the Snowflake server becomes unresponsive and shows a 'Server overloaded' error:
-   - To resolve the issue, run [Step 6](#step-5--launch-a-snowflake-service---copy-paste-output-to-sf-worksheet-and-run) from Line that says *"DROP SERVICE IF EXISTS <service_name_defined_in_config>;"*
+   - To resolve the issue, run [Step 6](#step-6--launch-a-snowflake-service---copy-paste-output-to-sf-worksheet-and-run) from Line that says *"DROP SERVICE IF EXISTS <service_name_defined_in_config>;"*
 
 
 2. **Model Unavailable Error**
@@ -183,6 +180,17 @@ In case you encounter any of the following issues, please follow the recommended
 ## Launch a SF Service on a Custom Database
 
 Follow the below steps to launch End-to-End pipeline as a Service on Snowflake and interact with it.
+
+
+### SETTING THE ENVIRONMENT VARIABLES
+
+**<your_project_repository> is the path to the local directory where <git_repo> has been cloned.**
+
+
+```sh
+export SETUP_PATH="<your_project_directory>/kgqa_demo_setup/kgqa_setup"
+```
+
 
 ### STEP 1 : Navigate to the KGQA_DOCKER FOLDER
 ```sh
