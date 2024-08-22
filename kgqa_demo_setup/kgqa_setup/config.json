@@ -1,0 +1,32 @@
+{
+    "account": "<account_name>",
+    "sf_login_email": "john.doe@relational.ai",
+    "roles": {
+        "primary": "accountadmin",
+        "secondary": "kgqa_public"
+    },
+    "database": {
+        "name": "temp_db",
+        "schema": "temp_schema",
+        "warehouse": {
+            "name": "temp_wh",
+            "size": "X-SMALL"
+        },
+        "compute_pool": {
+            "name": "temp_cp",
+            "min_nodes": 1,
+            "max_nodes": 1,
+            "instance_family": "CPU_X64_XS"
+        }
+    },
+    "storage": {
+        "bucket_uri": "s3://kgqa-wikidata/wiki_sample_snapshot/",
+        "stage_name": "s3load",
+        "file_formatter_name": "temp_ff"
+    },
+    "image_service": {
+        "repo_name": "kgqa_image_repo",
+        "service_name": "kgqa_service",
+        "image_name": "kgqa_final_image"
+    }
+}
