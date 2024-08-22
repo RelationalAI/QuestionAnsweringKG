@@ -9,7 +9,7 @@ cd <your_project_directory>/kgqa_docker/
 
 ### STEP 2 : Populate all SF config parameters
 
-- Update the config parameters in the config file ['config.json'](../kgqa_demo_setup/kgqa_setup/config.json)
+- Update the config parameters in the config file ['config.json'](./kgqa_demo_setup/kgqa_setup/config.json)
 
 > **_NOTE:_** Anything prefixed with **temp_** can be customized by the user, along with **account and sf_login_email**. *Everything else should remain unchanged*.
 
