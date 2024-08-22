@@ -107,7 +107,7 @@ In case you encounter any of the following issues, please follow the recommended
 
 1. **Server Overload Error**
    If the Snowflake server becomes unresponsive and shows a 'Server overloaded' error:
-   - To resolve the issue, run [Step 6](#step-5--launch-a-snowflake-service---copy-paste-output-to-sf-worksheet-and-run) from Line that says *"DROP SERVICE IF EXISTS <service_name_defined_in_config>;"*
+   - To resolve the issue, run [Step 6](#step-6--launch-a-snowflake-service---copy-paste-output-to-sf-worksheet-and-run) from Line that says *"DROP SERVICE IF EXISTS <service_name_defined_in_config>;"*
 
 
 2. **Model Unavailable Error**
