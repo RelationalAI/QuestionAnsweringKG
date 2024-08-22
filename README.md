@@ -39,7 +39,7 @@ export SETUP_PATH="<your_project_directory>/kgqa_demo_setup/kgqa_setup"
 
 #### STEP 1 : Navigate to the KGQA_SETUP FOLDER
 ```sh
-cd <your_project_directory>/kgqa_demo_setup/kgqa_setup
+cd $SETUP_PATH
 ```
 
 #### STEP 2 : Populate all Snowflake config parameters 
