@@ -1,0 +1,17 @@
+PyYAML
+yaspin
+tqdm
+pandas==2.1.4
+tabulate
+termcolor
+rdflib
+graphviz
+flask
+flask-cors
+streamlit
+gravis
+faiss-cpu
+requests
+snowflake-connector-python[pandas]
+yaspin
+psycopg2-binary

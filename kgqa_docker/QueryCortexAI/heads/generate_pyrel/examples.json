@@ -1,0 +1,137 @@
+[
+    {
+        "query": "Name the actors of The Silent One. ",
+        "IR": "x: actor(\"The Silent One\", x)",
+        "Similar_IDs": [
+            {
+                "The Silent One": [
+                    "Q3227191",
+                    "Q15040722"
+                ],
+                "actor": [
+                    "P725",
+                    "P161"
+                ]
+            }
+        ],
+        "PyRel": "with graph.query() as select:\n    clause0 = clause(subject_candidate_ids=[\"Q3227191\",\"Q15040722\"], relation_candidate_ids=[\"P725\",\"P161\"])\n    res_relations = select(alias(clause0.target_ent_id, \"x\"))\nresults = set(res_relations.results.get(\"x\", []))"
+    },
+    {
+        "query": "Name all films by screenwriter Barbara Albert.",
+        "IR": "x: wrote(\"Barbara Albert\", x)",
+        "Similar_IDs": [
+            {
+                "Barbara Albert": [
+                    "Q78756",
+                    "Q29390287"
+                ],
+                "wrote": [
+                    "P58",
+                    "P50"
+                ]
+            }
+        ],
+        "PyRel": "with graph.query() as select:\n    clause0 = clause(subject_candidate_ids=[\"Q78756\",\"Q29390287\"], relation_candidate_ids=[\"P58\",\"P50\"])\n    res_relations = select(alias(clause0.target_ent_id, \"x\"))\nresults = set(res_relations.results.get(\"x\", []))"
+    },
+    {
+        "query": "Name a movie whose director is Srinu Vaitla and Brahmanandam is a cast member.",
+        "IR": "x: director(x, \"Srinu Vaitla\"); cast_member(x, \"Brahmanandam\")",
+        "Similar_IDs": [
+            {
+                "director": [
+                    "P57",
+                    "P344"
+                ],
+                "Srinu Vaitla": [
+                    "Q7586467",
+                    "Q7586456"
+                ]
+            },
+            {
+                "cast_member": [
+                    "P161",
+                    "P153"
+                ],
+                "Brahmanandam": [
+                    "Q3765029",
+                    "Q25097126"
+                ]
+            }
+        ],
+        "PyRel": "with graph.query() as select:\n    clause0 = clause(object_candidate_ids=[\"Q7586467\",\"Q7586456\"], relation_candidate_ids=[\"P57\",\"344\"])\n    clause1 = clause(object_candidate_ids=[\"Q3765029\",\"Q25097126\"], relation_candidate_ids=[\"P161\",\"P153\"])\n    clause0.source_ent_id==clause1.source_ent_id\n    res_results = select(alias(clause0.target_ent_id, \"x\"))\nresults = set(res_results.results.get(\"x\", []))"
+    },
+    {
+        "query": "Name a movie whose director is Srinu Vaitla or Brahmanandam is a cast member.",
+        "IR": "x, y: director(x, \"Srinu Vaitla\"); cast_member(y, \"Brahmanandam\")",
+        "Similar_IDs": [
+            {
+                "director": [
+                    "P57",
+                    "P344"
+                ],
+                "Srinu Vaitla": [
+                    "Q7586467",
+                    "Q7586456"
+                ]
+            },
+            {
+                "cast_member": [
+                    "P161",
+                    "P153"
+                ],
+                "Brahmanandam": [
+                    "Q3765029",
+                    "Q25097126"
+                ]
+            }
+        ],
+         
+        "PyRel": "with graph.query() as select:\n    clause0 = clause(object_candidate_ids=[\"Q7586467\",\"Q7586456\"], relation_candidate_ids=[\"P57\",\"344\"])\n    clause1 = clause(object_candidate_ids=[\"Q3765029\",\"Q25097126\"], relation_candidate_ids=[\"P161\",\"P153\"])\n    res_results = select(alias(clause0.source_ent_id, \"x\"), alias(clause1.target_ent_id, \"y\"))\nresults = set(res_results.results.get(\"x\", [])).union(set(res_results.results.get(\"y\", [])))"
+    },
+    {
+        "query": "Name all the movies that the producer and writer are the same.",
+        "IR": "x: producer(x, p); writer(x, p)",
+        "Similar_IDs": [
+            {
+                "producer": [
+                    "P162",
+                    "P1431"
+                ]
+            },
+            {
+                "writer": [
+                    "P58",
+                    "P50"
+                ]
+            }
+        ],
+         
+        "PyRel": "with graph.query() as select:\n    clause0 = clause(relation_candidate_ids=[\"P162\",\"P1431\"])\n    clause1 = clause(relation_candidate_ids=[\"P58\",\"P50\"])\n    clause0.source_ent_id == clause1.source_ent_id\n    clause0.target_ent_id == clause1.target_ent_id\n    res_relations = select(alias(clause0.source_ent_id, \"x\"))\nresults = set(res_relations.results.get(\"x\", []))"
+    },
+    {
+        "query": "Name a movie that the producer is the sibling of the editor",
+        "IR": "x: producer(x, q1); editor(x, q2); sibling(q1, q2)",
+        "Similar_IDs": [
+            {
+                "producer": [
+                    "P162",
+                    "P1431"
+                ]
+            },
+            {
+                "editor": [
+                    "P1040",
+                    "P123"
+                ]
+            },
+            {
+                "sibling": [
+                    "P3373", 
+                    "P8810"
+                ]
+            }
+        ],
+         
+        "PyRel": "with graph.query() as select:\n    clause0 = clause(relation_candidate_ids=[\"P162\",\"P1431\"])\n    clause1 = clause(relation_candidate_ids=[\"P1040\",\"P123\"])\n    clause2 = clause(relation_candidate_ids=[\"P3373\",\"P8810\"])\n    clause0.source_ent_id == clause1.source_ent_id\n    clause0.target_ent_id == clause2.source_ent_id\n    clause1.target_ent_id == clause2.target_ent_id\n    res_relations = select(alias(clause0.source_ent_id, \"x\"))\nresults = set(res_relations.results.get(\"x\", []))"
+    }
+]

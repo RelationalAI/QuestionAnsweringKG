@@ -1,0 +1,30 @@
+[
+    {
+        "query": "Name all films by written Barbara Albert.",
+        "IR": "m: wrote(x, 'Barbara Albert')"
+    },
+    {
+        "query": "Name a movie whose director is Srinu Vaitla and Brahmanandam is a cast member.",
+        "IR": "m: director(m, \"Srinu Vaitla\"); cast_member(m, \"Brahmanandam\")"
+    },
+    {
+        "query": "Name film screenwritten by Barbara Albert and participant in 20th European Film Awards.",
+        "IR": "x: screenwritten(x, \"Barbara Albert\"); participant_in(x, \"20th European Film Awards\")"
+    },
+    {
+        "query": "Name films directed by either Christopher Nolan or Steven Spielberg?",
+        "IR": "x, y: director(x, \"Christopher Nolan\"); director(x, \"Steven Spielberg\")" 
+    },
+    {
+        "query": "Name a movie whose director is the spouse of one of the cast members.",
+        "IR": "m: director(m, x); cast_member(m, y); spouse(x, y)"
+    },
+    {
+        "query":"How many movies has Christopher Nolan directed that feature Christian Bale?",
+        "IR": "COUNT(m): director(m, \"Christopher Nolan\"); featured(m, \"Christian Bale\")"
+    },
+    {
+        "query":"List movies with Christopher Nolan as director that feature Christian Bale or Heath Ledger?",
+        "IR": "m1, m2: director(m1, \"Christopher Nolan\"); featured(m1, \"Christian Bale\"); director(m2, \"Christopher Nolan\"); featured(m2, \"Heath Ledger\")"
+    }
+]

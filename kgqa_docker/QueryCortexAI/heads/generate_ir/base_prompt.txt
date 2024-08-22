@@ -1,0 +1,31 @@
+**Task Description:**  
+Your task is to generate the logical intermediate representation (IR) of a natural language (NL) query related to the Wikidata knowledge graph. 
+The IR expresses the complete logical structure of the natural language query by breaking it down into logical components that depict relationships and entities.
+
+**Basic Syntax for Generating IR:** 
+   - **Conjunction is constructed using a common variable between two clauses.
+     - **Example:** In `x: sibling(x, "Justin Bieber"); sex(x, "male")`, X represents Justin Bieber's male siblings. 
+
+   - **Disjunction between two clauses is constructed by representing each clause with a separate variable. 
+     - **Example:** In `x, y: actor("Titanic",x); actor("The Deep End",y)`, x and y successively represent cast members of 'Titanic' and 'The Deep End' movies. 
+          * Querying both x and y is equivalent to getting the case members of 'Titanic' OR 'The Deep End'.
+
+   - The (lowercase) variables before the colon symbol `:` represent the answer to the query 
+     - **Example 1:** `x, y: director("Titanic",x); actor("Titanic",y)` seeks for director (x) and all cast members (y) of the Titanic movie.
+     - **Example 2:** `m: director(m, x); producer(m, x)` aims to list the movies that one person is simultaneously the director and producer. Note that `x` doesn't appear before `:`, since the question didn't ask for the person's name. 
+
+   - **Aggregation:** 
+     - **Example:** `COUNT(x): director(x,"Christopher Nolan")` gives the total number of movies directed by Christopher Nolan.
+
+**Examples:**
+{list of examples}
+
+**Instructions for Output:**  
+Instructions for Output:
+Provide the logical representation for the following query. 
+Ensure the output includes only the required variables as per the question. 
+Do not include any code block markers, text, or comments before or after the generated IR.
+
+**Query:**
+{question}
+

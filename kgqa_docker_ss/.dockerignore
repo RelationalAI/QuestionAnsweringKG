@@ -1,0 +1,5 @@
+sf_params.py
+raiconfig.toml
+data/
+__pycache__
+.dockerignore

@@ -1,0 +1,281 @@
+[
+    {
+        "query": "Which movie's director is married to a cast member?",
+        "IR": "m:  director(m, x); cast_member(m, y); married_to(x, y)",
+        "Similar_IDs": [
+            {
+                "director": [
+                    "P57", 
+                    "P344"
+                ]
+            },
+            {
+                "cast_member": [
+                    "P161", 
+                    "P674"
+                ]
+            },
+            {
+                "married_to": [
+                    "P26", 
+                    "P8810"
+                ]
+            }
+        ]
+    },
+    {
+        "query": "Which movie's director was born in the same city as one of the cast members? ",
+        "IR": "m:  director(m, x); cast_member(m, y); birth_place(x, c); birth_place(y, c)",
+        "Similar_IDs": [
+            {
+                "director": [
+                    "P57", 
+                    "P344"
+                ]
+            },
+            {
+                "cast_member": [
+                    "P161", 
+                    "P674"
+                ]
+            },
+            {
+                "birth_place": [
+                    "P19", 
+                    "P276"
+                ]
+            },
+            {
+                "birth_place": [
+                    "P19", 
+                    "P276"
+                ]
+            }
+        ]
+    },
+    {
+        "query": "Name a movie whose producer is the sibling of one of the cast members.",
+        "IR": "m: producer(m, x); cast_member(m, y); sibling(x, y)",
+        "Similar_IDs": [
+            {
+                "producer": [
+                    "P162", 
+                    "P1431"
+                ]
+            },
+            {
+                "cast_member": [
+                    "P161", 
+                    "P674"
+                ]
+            },
+            {
+                "sibling": [
+                    "P3373", 
+                    "P8810"
+                ]
+            }
+        ]
+    },
+    {
+        "query": "In which movie the director is the parent of one of the main cast members?",
+        "IR": "m: director(m, x); cast_member(m, y); parent(y, x)",
+        "Similar_IDs": [
+            {
+                "director": [
+                    "P57", 
+                    "P344"
+                ]
+            },
+            {
+                "cast_member": [
+                    "P161", 
+                    "P674"
+                ]
+            },
+            {
+                "parent": [
+                    "P8810", 
+                    "P3373"
+                ]
+            }
+        ]
+    },
+    {
+        "query": "Name films directed by either Christopher Nolan or Steven Spielberg.",
+        "IR": "m1, m2: director(m1, \"Christopher Nolan\"); director(m2, \"Steven Spielberg\")",
+        "Similar_IDs": [
+            {
+                "director": [
+                    "P57", 
+                    "P344"
+                ],
+                "Christopher Nolan":[
+                    "Q25191",
+                    "Q58444"
+                ]
+            },
+            {
+                "director": [
+                    "P57", 
+                    "P344"
+                ],
+                "Steven Spielberg":[
+                    "Q8877", 
+                    "Q81328"
+                ]
+            }
+        ]
+    },
+    {
+        "query": "Name movies either directed or produced by Steven Spielberg.",
+        "IR": "m1, m2: director(m1, \"Steven Spielberg\"); producer(m2, \"Steven Spielberg\")",
+        "Similar_IDs": [
+            {
+                "director": [
+                    "P57", 
+                    "P344"
+                ],
+                "Steven Spielberg":[
+                    "Q8877", 
+                    "Q81328"
+                ]
+            },
+            {
+                "producer": [
+                    "P162", 
+                    "P1431"
+                ],
+                "Steven Spielberg":[
+                    "Q8877", 
+                    "Q81328"
+                ]
+            }
+        ]
+    },
+    {
+        "query": "List movies that both Robert De Niro and Al Pacino casted in them?",
+        "IR": "m: cast_member(m, \"Robert De Niro\"); cast_member(m, \"Al Pacino\")",
+        "Similar_IDs": [
+            {
+                "cast_member": [
+                    "P161", 
+                    "P674"
+                ],
+                "Robert De Niro":[
+                    "Q36949",
+                    "Q41148"
+                ]
+            },
+            {
+                "cast_member": [
+                    "P161", 
+                    "P674"
+                ],
+                "Al Pacino":[
+                    "Q41163", 
+                    "Q4703652"
+                ]
+            }
+        ]
+    },
+    {
+        "query": "Who's the editor of a film directed by Christopher Nolan that has Christian Bale as a cast member?",
+        "IR": "x: director(m, \"Christopher Nolan\"); cast_member(m, \"Christian Bale\"); editor(m, x)",
+        "Similar_IDs": [
+            {
+                "editor":[
+                    "P1040",
+                    "P123"
+                ]
+            },
+            {
+                "director": [
+                    "P57", 
+                    "P344"
+                ],
+                "Christopher Nolan":[
+                    "Q25191",
+                    "Q58444"
+                ]
+            },
+            {
+                "cast_member": [
+                    "P161", 
+                    "P674"
+                ],
+                "Christian Bale":[
+                    "Q45772", 
+                    "Q58444"
+                ]
+            }
+        ]
+    },
+    {
+        "query": "Name a movie directed by Quentin Tarantino or Martin Scorsese that has both Samuel L. Jackson and Robert De Niro cast in them.",
+        "IR": "m1, m2: cast_member(m1, \"Samuel L. Jackson\"); cast_member(m1, \"Robert De Niro\"); director(m1, \"Martin Scorsese\"); cast_member(m2, \"Samuel L. Jackson\"); cast_member(m2, \"Robert De Niro\"); director(m2, \"Quentin Tarantino\")",
+        "Similar_IDs": [
+            {
+                "cast_member":[
+                    "P161",
+                    "P674"
+                ],
+                "Samuel L. Jackson":[
+                    "Q172678",
+                    "Q26868989"
+                ]
+            },
+            {
+                "cast_member":[
+                    "P161",
+                    "P674"
+                ],
+                "Robert De Niro":[
+                    "Q36949",
+                    "Q41148"
+                ]
+            },
+            {
+                "director": [
+                    "P57", 
+                    "P344"
+                ],
+                "Martin Scorsese":[
+                    "Q41148",
+                    "Q23848"
+                ]
+            },
+            {
+                "cast_member":[
+                    "P161",
+                    "P674"
+                ],
+                "Samuel L. Jackson":[
+                    "Q172678",
+                    "Q26868989"
+                ]
+            },
+            {
+                "cast_member":[
+                    "P161",
+                    "P674"
+                ],
+                "Robert De Niro":[
+                    "Q36949",
+                    "Q41148"
+                ]
+            },
+            {
+                "director": [
+                    "P57", 
+                    "P344"
+                ],
+                "Quentin Tarantino":[
+                    "Q3772",
+                    "Q39792"
+                ]
+            }
+        ]
+
+    }
+]
