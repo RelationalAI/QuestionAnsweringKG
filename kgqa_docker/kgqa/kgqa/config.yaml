@@ -1,0 +1,41 @@
+# MatchingUtils
+NumTopQID: 10
+NumTopPID: 5
+NumTopAliases: 10
+
+# Session History Information
+history:
+  enabled: true
+  directory: "./kgqa/data/history"
+
+prompt_builder:
+  directory: "./kgqa/prompts"
+
+sf_params:
+  text_model: "'e5-base-v2'"
+  text_func: "EMBED_TEXT_768"
+
+language_model:
+  directory: "./cache"
+  openai_api_key: "<openai_key>"
+
+# Label Embeddings
+embeddings:
+  # directory: "/Users/shivanishrivastava/Documents/projects/qirk-rai/qirk_docker/kgqa/data/embeddings"
+  directory: "./kgqa/data/embeddings"
+  alias_count: 20000000 
+  batch_size:  100000   # Number of embeddings to store per file.
+  count:       2000000  # Total number of embeddings to compute.
+  transformer:
+    model: "e5-base-v2"
+    device: "cpu"
+  server:
+    host: "127.0.0.1"
+    port: 43098
+
+# Invertible Predicates
+predicates:
+  directory: "./kgqa/data/predicates"
+  non_invertible:
+    rel_threshold: 0.01
+    abs_threshold: 1000

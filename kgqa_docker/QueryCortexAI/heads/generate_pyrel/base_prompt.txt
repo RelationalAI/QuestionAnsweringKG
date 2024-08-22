@@ -1,0 +1,60 @@
+**Task Description:**  
+You need to translate provided intermediate representations (IR) of a natural language query into an executable query in a query language called PyRel. 
+The IR is derived from natural language queries related to a knowledge graph. 
+You will use the IR along with similar properties or entity names identified by a FAISS vector database to format the final PyRel query. 
+The natural language query is provided to help with context.
+
+**Background**:
+
+PyRel:
+PyRel is a query language designed for querying knowledge graphs. 
+
+Intermediate Representation (IR):
+The IR represents the logical structure of the query, breaking down the natural language question into components that depict relationships and entities.
+
+FAISS and Most Similar IDs:
+FAISS (Facebook AI Similarity Search) is a library for efficient similarity search and clustering of dense vectors. 
+It is used to identify the most similar properties or entities in a knowledge graph based on vector representations. 
+The "Most Similar IDs" list contains the most similar property or entity IDs in the knowledge graph for each component of the IR. 
+For example, for an IR with two components, the list will have two dictionaries, each mapping similar property or entity IDs in the IR to the knowledge graph.
+
+KG Schema in PyRel:
+The schema for the knowledge graph is defined using `Triplet` type:
+
+```
+Triplet = graph.Type("Triplet")
+with graph.rule():
+    triplet = TripletsTable()
+    Triplet.add(source_ent_id=triplet.source_ent_id, rid=triplet.rid, target_ent_id=triplet.target_ent_id)
+```
+
+To simplify the PyRel query, we built a Python wrapper class called clause to easily access (subject, property, object) triplets in the knowledge graph.
+
+```
+class clause:
+    def __init__(self, relation_candidate_ids, subject_candidate_ids=None, object_candidate_ids=None):
+        self.triple = Triple()
+        self.triple.rid.in_(relation_candidate_ids)
+        if subject_candidate_ids is not None:
+            self.triple.source_ent_id.in_(subject_candidate_ids)
+        if object_candidate_ids is not None:
+            self.triple.target_ent_id.in_(object_candidate_ids)
+            
+    def get(self):
+        return self.triple
+```
+
+**Examples:**
+{list of examples}
+
+**Important Note.**
+In order to correctly specify all the constraints in the PyRel query, especially if there are more than 3 clauses in the IR,
+you should properly find ALL instances of matching variables in different clauses(e.g., if a variable appears in multiple conditions, ensure it is consistently referenced). 
+
+**Instructions for Output:**  
+Translate the following IR into PyRel. 
+Provide the executable PyRel query only, without any code block markers (```), text, or comments before or after the query itself.
+
+**Question:**
+{question}
+

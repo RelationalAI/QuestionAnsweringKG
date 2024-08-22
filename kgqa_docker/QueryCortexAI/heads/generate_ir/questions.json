@@ -1,0 +1,26 @@
+[
+    {
+        "query": "Which movie's director is married to a cast member?"
+    },
+    {
+        "query": "Which movie's director was born in the same city as one of the cast members?"
+    },
+    {
+        "query": "Name a movie whose producer is the sibling of one of the cast members."
+    },
+    {
+        "query": "In which movie the director is the parent of one of the cast members?"
+    },
+    {
+        "query": "Name films directed by either Christopher Nolan or Steven Spielberg."
+    },
+    {
+        "query": "Name movies either directed or produced by Steven Spielberg."
+    },
+    {
+        "query": "Name a movie directed by Quentin Tarantino or Martin Scorsese that has both Samuel L. Jackson and Robert De Niro cast in them."
+    },
+    {
+        "query":"How many movies has Christopher Nolan directed that have Christian Bale cast in them?"
+    }
+]

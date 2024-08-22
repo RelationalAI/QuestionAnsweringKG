@@ -25,8 +25,8 @@
         "file_formatter_name": "temp_ff"
     },
     "image_service": {
-        "repo_name": "kgqa_image_repo",
-        "service_name": "kgqa_service",
-        "image_name": "kgqa_final_image"
+        "repo_name": "temp_kgqa_image_repo",
+        "service_name": "temp_kgqa_service",
+        "image_name": "temp_kgqa_final_image"
     }
 }
