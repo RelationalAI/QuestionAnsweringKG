@@ -1,27 +1,27 @@
 
 # KGQA: Question Answering on Knowledge Graphs Using RelationalAI and Snowflake Cortex AI
 
-[Here]('https://github.com/jlscheerer/kgqa/tree/main') is the link to the original implementation from the paper [QirK: Question Answering via Intermediate Representation on Knowledge Graphs]('https://arxiv.org/abs/2408.07494'). 
-
-<!-- ------------------------ -->
-
 ## Overview 
 Duration: 1
 
 Knowledge graphs are a useful structure to use to encode information about a particular domain. They allow for explicit inspection of the data encoded and the ability to reason over the relations. However, writing a query against a knowledge graph can be more challenging than other systems given that they generally lack a natural language interface. In order to query over a knowledge graph such as the one created by Wikidata, the user must know the specialized syntax of SPARQL as well as the knowledge graph representation of the entities and relations. For example, the concept of a hospital in wikidata is represented internally as Q16917.
 
-In this quickstart, we will create a Snowflake service using Snowpark Container Services ( SPCS ), Snowflake's LLM service provided by their Cortex product and RelationalAI, a Knowledge Graph Coprocessor embedded inside of Snowflake, to allow a user to ask the following questions on a subset of Wikidata:
+In this quickstart, we will create a Snowflake service using Snowpark Container Services ( SPCS ), Snowflake's LLM service provided by their Cortex AI product and RelationalAI, a Knowledge Graph Coprocessor embedded inside of Snowflake, to allow a user to ask the following questions on a subset of Wikidata:
 
 - List movies directed by John Krasinski?
 - Name a movie directed by Quentin Tarantino or Martin Scorsese that has De Niro as a cast member
 - Which movie's director was born in the same city as one of the cast members?
 
 
+*This work is a partial reimplementation of the [QirK: Question Answering via Intermediate Representation on Knowledge Graphs paper](https://arxiv.org/abs/2408.07494). The implementation of the paper can be found [here]('https://github.com/jlscheerer/kgqa/tree/main').*
+
 ### What Is RelationalAI?
 
 RelationalAI is a cloud-native platform that enables organizations to streamline and enhance decisions with intelligence. RelationalAI extends Snowflake with native support for an expanding set of AI workloads (e.g., graph analytics, rule-based reasoning, and optimization), all within your Snowflake account, offering the same ease of use, scalability, security, and governance.
 
 Users can build a knowledge graph using Python and materialize it on top of their Snowflake data, which are shared with the RelationalAI app through Snowflake Streams. Insights can be written to Snowflake tables and shared across the organization.
+
+In our case, we will utilize RelationalAI’s Native App to construct an executable Knowledge graph over a subset of Wikidata to answer natural language queries. 
 
 ### What You’ll Learn
 
@@ -40,6 +40,7 @@ Users can build a knowledge graph using Python and materialize it on top of thei
     - Role "kgqa_public" in their snowflake account, which has ownership and usage access similar to "accountadmin". Follows ths steps mentioned [here](https://docs.snowflake.com/en/user-guide/security-access-control-configure#create-a-role) to create a new role. 
 - Basic knowledge of using a Snowflake SQL Worksheet and Jupyter Notebook
 - [Snowflake privileges on your user to install a Native Application](https://other-docs.snowflake.com/en/native-apps/consumer-installing#set-up-required-privileges)
+- The [RelationalAI CLI](https://relational.ai/docs/reference/cli/)
 - The [RAI KGQA Jupyter notebook](../kgqa_demo_setup/kgqa_demo_nb/kgqa_demo.ipynb) used in this quickstart 
 - [Docker Setup](https://docs.docker.com/desktop/install/mac-install/)
 
@@ -47,6 +48,268 @@ Users can build a knowledge graph using Python and materialize it on top of thei
 ### What You’ll Build
 - A Question Answering System on Knowledge Graphs using RelationalAI and Snowflake Cortex AI
 
+
+<!-- ------------------------ -->
+
+## Installing the RelationalAI Native App
+Duration: 15
+
+### Getting the native application
+
+In the Snowflake Marketplace, search for the ‘RelationalAI' Native App and request it by clicking the 'Request' button. When your request is approved by the RelationalAI team, you'll see the RelationalAI app under 'Data Products' > 'Apps'. Click the 'Buy' button to install the app in your Snowflake account.
+
+![RelationaAI Native App in Snowflake Marketplace](assets/5ab50c6677b49bd1.png)
+
+When the installation process is complete, you'll see RelationalAI in your list of installed apps:
+
+![RelationaAI Native App installed](assets/9152eac248e45123.png)
+
+Click on the RelationalAI app to open it. The first screen prompts you to grant the necessary privileges for the app to run:
+
+![RelationaAI Native App privileges](assets/cdc6b23ca12419a2.png)
+
+The next button prompts you to activate the app:
+
+![RelationaAI Native App privileges](assets/e8bfeac65ff8cd86.png)
+
+The last screen in this sequence prompts you to launch the app, but you can skip that step.
+
+Congratulations! The RelationalAI app is now available in your Snowflake account.
+
+### Setup
+
+> aside negative
+>
+> We recommend **running each SQL cell separately** instead of using the "Run All" feature.
+
+#### Step 1 - Share Continuous Telemetry Data
+
+To receive support from RelationalAI, you must opt-in to share continuous telemetry data. Telemetry is written to your account’s active [event table](https://docs.snowflake.com/en/developer-guide/logging-tracing/logging-tracing-overview). This telemetry contains operational information such as internal system logs or engine sizes and usage data such as model attributes or obfuscated query plan information. Customer data and personally identifiable information are not included in continuous telemetry data.
+
+> aside positive
+>
+> Note that the `ACCOUNTADMIN` role is used in this guide. This role is needed only for the event-table related operations. To manage roles specific the RelationalAI Native App, see Appendix 3 at the bottom of this notebook.
+
+```sql
+USE ROLE ACCOUNTADMIN;
+```
+
+##### Step 1A - Check whether active event table exists
+
+Use the [SHOW PARAMETERS](https://docs.snowflake.com/en/sql-reference/sql/show-parameters) command to determine if you have an active event table.
+
+If the `event_table` parameter is set, the command returns the name of the active event table. In that case, skip step 1B and move to step 1C.
+
+```sql
+SHOW PARAMETERS LIKE 'event_table' in ACCOUNT;
+```
+
+##### Step 1B - Create event table
+
+An empty result indicates that no event table is set, you therefore need to create one.
+
+> aside positive
+>
+> You can customize the database, schema and table name below as needed. Default values have been provided.
+
+```sql
+SET event_db_name = 'TELEMETRY';
+SET event_schema_name = 'PUBLIC';
+SET event_table_name = 'EVENTS';
+
+-- Define additional helper variables
+SET event_db_schema = $event_db_name || '.' || $event_schema_name;
+SET event_db_schema_table = $event_db_name || '.' || $event_schema_name || '.' || $event_table_name;
+```
+
+```sql
+-- Create event database, schema and table
+CREATE DATABASE IF NOT EXISTS IDENTIFIER($event_db_name);
+CREATE SCHEMA IF NOT EXISTS  IDENTIFIER($event_db_schema);
+CREATE EVENT TABLE IF NOT EXISTS IDENTIFIER($event_db_schema_table);
+
+ALTER ACCOUNT SET EVENT_TABLE = $event_db_schema_table;
+```
+
+##### Step 1C - Enable telemetry sharing with RelationalAI
+
+By running the next code block, you consent to and enable sharing continuous telemetry data with RelationalAI.
+
+```sql
+ALTER APPLICATION relationalai SET SHARE_EVENTS_WITH_PROVIDER = TRUE;
+```
+
+#### Step 2 - Configure Compute Resources
+
+Dedicated [compute pools](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/working-with-compute-pool) are required for users to consume the RAI service via the [relationalai Python package](https://relational.ai/docs/getting_started). These compute pools host [RAI engines](https://relational.ai/docs/native_app/components/engines), which are the compute resources that execute RAI queries. There are two engine sizes available, each corresponding to a different compute pool instance family: `HIGHMEM_X64_S` and `HIGHMEM_X64_M`.
+
+Engines, not compute pools, incur costs, and the required engine size depends on the workload. Users must choose a compatible compute pool when creating engines. To ensure availability, you may wish to create a compute pool for each engine size. However, you may start with only a `HIGHMEM_X64_S` compute pool and create a `HIGHMEM_X64_M` compute pool later if needed.
+
+> aside positive
+>
+> Notice how the `MAX_NODES` attribute is set to 1 by default. This is sufficient for the `rai_service_pool`, but depending on your use case, you might want to adjust it for the other compute pools. You can do this at any point in time by running the `ALTER COMPUTE POOL` command.
+
+> aside positive
+>
+> Adjusting the `AUTO_SUSPEND_SECS` parameter helps balance cost control with availability for engine provisioning. See [documentation on Cost Management](https://relational.ai/docs/native_app/cost_management) for details on how costs are accrued.
+
+```sql
+-- Create compute pools for the RAI engines, one for each supported instance family
+CREATE COMPUTE POOL IF NOT EXISTS rai_engine_pool_s
+      FOR APPLICATION relationalai
+      MIN_NODES = 1
+      MAX_NODES = 1
+      AUTO_RESUME = TRUE
+      AUTO_SUSPEND_SECS = 300
+      INSTANCE_FAMILY = HIGHMEM_X64_S;
+
+GRANT USAGE, MONITOR ON COMPUTE POOL rai_engine_pool_s TO APPLICATION relationalai;
+
+CREATE COMPUTE POOL IF NOT EXISTS rai_engine_pool_m
+      FOR APPLICATION relationalai
+      MIN_NODES = 1
+      MAX_NODES = 1
+      AUTO_RESUME = TRUE
+      AUTO_SUSPEND_SECS = 300
+      INSTANCE_FAMILY = HIGHMEM_X64_M;
+
+GRANT USAGE, MONITOR ON COMPUTE POOL rai_engine_pool_m TO APPLICATION relationalai;
+```
+
+#### Step 3 - Create the RAI service
+
+The *Grant* button under *Data Products > Apps > RelationalAI* in Snowsight runs the following SQL command to grant the necessary permissions to the app. If you haven't clicked that button yet, you can run the code here instead. It doesn't hurt to run it again if you're not sure.
+
+```sql
+GRANT EXECUTE TASK, EXECUTE MANAGED TASK, CREATE COMPUTE POOL, CREATE WAREHOUSE ON ACCOUNT TO APPLICATION RELATIONALAI;
+```
+
+Now execute the following command to create the RAI service:
+
+```sql
+CALL RELATIONALAI.APP.CREATE_SERVICE();
+```
+
+Next, check the status of the service to ensure it shows `"message": "Running"` (this usually takes between 30 seconds and a couple minutes):
+
+```sql
+CALL RELATIONALAI.APP.SERVICE_STATUS();
+```
+
+> aside negative
+>
+> **IMPORTANT**
+> While RelationalAI is in preview mode, you must upgrade the application weekly after RAI releases an updated native app. Please review the [Upgrades](https://relational.ai/docs/native_app/upgrades) section of the RelationalAI Native App documentation and subscribe to the release notes to receive notifications about new versions.
+
+#### Step 4 - Setting up Change Data Capture
+
+Streams share Snowflake data with the RAI Native App using change data capture (CDC) to capture source table and view changes once every minute.
+
+To enable CDC, an engine needs to be configured to be the CDC engine.
+
+We start by creating an engine of size `HIGHMEM_X64_S` that we call `kgqa_engine`.
+
+```sql
+CALL RELATIONALAI.API.CREATE_ENGINE('kgqa_engine', 'rai_engine_pool_s', 'HIGHMEM_X64_S');
+```
+
+Once the engine creation has finished (this can take anywhere between 1 and 5 minutes), all we need to do is set this engine to be the CDC engine.
+
+```sql
+CALL RELATIONALAI.APP.SETUP_CDC('kgqa_engine');
+```
+
+Congratulations! Your RelationalAI app is ready to use.
+
+#### Next Steps
+
+To get up and running with the RelationalAI native app, download the [Simple Start Jupyter notebook](https://relational.ai/notebooks/simple-start.ipynb) and follow the [instructions for running the notebook](https://relational.ai/docs/example_notebooks#instructions).
+
+For a more detailed example and more information about the RelationalAI Python library, check out the [Getting Started guide](https://relational.ai/docs/getting_started).
+
+Links:
+- [Simple Start Notebook](https://relational.ai/notebooks/simple-start.ipynb)
+- [Example Notebooks](https://relational.ai/docs/example_notebooks)
+- [Docs](https://relational.ai/docs)
+
+### APPENDIX 1 - Suspend or drop the RAI Service and deleting all engines
+
+Suspending the RAI service temporarily halts operations to reduce costs without completely stopping it. Certain background tasks, continue to run while the service is suspended and may incur charges. It is also possible to drop the service completely.
+The service can be resumed at any time using the `RESUME_SERVICE()` procedure.
+
+> aside negative
+>
+> Note that this task requires the `app_admin` application role.
+
+```sql
+-- Suspend CDC
+CALL RELATIONALAI.APP.SUSPEND_CDC();
+
+-- Delete the engine we created:
+CALL RELATIONALAI.API.DELETE_ENGINE('kgqa_engine', TRUE);
+```
+
+```sql
+-- List the engines:
+SELECT * FROM RELATIONALAI.API.ENGINES;
+```
+
+```sql
+-- For each engine name in the output of the above `SELECT` statement (if any),
+-- fill in the engine name in the following command and run it:
+CALL RELATIONALAI.API.DELETE_ENGINE('<engine_name>', TRUE);
+```
+```sql
+-- Suspend the service
+CALL RELATIONALAI.APP.SUSPEND_SERVICE();
+```
+
+```sql
+-- Drop the service
+CALL RELATIONALAI.APP.DROP_SERVICE();
+```
+
+### APPENDIX 2 - Resume Service and Re-create Engine
+
+```sql
+-- Resume the service after suspending it:
+CALL RELATIONALAI.APP.RESUME_SERVICE();
+```
+```sql
+-- Recreate service after dropping it
+CALL RELATIONALAI.APP.CREATE_SERVICE();
+```
+```sql
+-- Recreate the engine if necessary:
+CALL RELATIONALAI.API.CREATE_ENGINE('kgqa_engine', 'rai_engine_pool_s', 'HIGHMEM_X64_S');
+
+-- Resume CDC:
+CALL RELATIONALAI.APP.RESUME_CDC();
+```
+
+### APPENDIX 3 - Defining a RelationalAI User Role
+
+- We start by creating a new role that can be granted to any users permitted to use this application.
+- We then link the application's user role to this new role. Note that it is possible to create more fine-grained roles at a later stage.
+- Finally, we grant `MONITOR` permissions on the role to allow users to see engine compute pools. This is needed for the relationalai Python library to manage engines.
+
+```sql
+-- Create a role specific for accessing the app
+CREATE ROLE rai_user;
+
+-- Link the app's user role to the created role.
+GRANT APPLICATION ROLE relationalai.all_admin TO ROLE rai_user;
+
+-- Allow the role to see engine compute pools.
+GRANT MONITOR ON COMPUTE POOL rai_engine_pool_s TO ROLE rai_user;
+GRANT MONITOR ON COMPUTE POOL rai_engine_pool_m TO ROLE rai_user;
+```
+
+> aside positive
+> 
+> Further information
+>
+> Refer to the [documentation](https://relational.ai/docs/native_app/installation) for full instructions and more details about how to use the RelationalAI Native App.
 
 <!-- ------------------------ -->
 
@@ -72,7 +335,6 @@ Users may already have  their data in Snowflake. RelationalAI runs within the us
     - Note that we began with a natural language question, and the system was able to map it to the corresponding Wikidata IDs on its own.
 - The natural language question, Intermediate Representation, and similarity search results are then fed as input to Snowflake Cortex AI which outputs the RelationalAI Python query. 
 - This query is then directly executed on RelationalAI’s Model and the result is returned to the user. Note that everything runs securely in the user’s  Snowflake account on snowpark container services. Given that at the end we are executing a query on a Knowledge Graph, the answer is guaranteed to exist in our dataset, otherwise nothing will be returned.
-
 
 
 
@@ -212,6 +474,9 @@ cd <your_project_directory>/kgqa_docker/
 ```sh
 python3 $SETUP_PATH/setup.py --config $SETUP_PATH/config.json --output_dir $SETUP_PATH/ sf_db_initialization
 ```
+
+This step will automatically download [triplets](https://kgqa-wikidata.s3.us-east-2.amazonaws.com/wiki_sample_snapshot/claims.csv) and [labels](https://kgqa-wikidata.s3.us-east-2.amazonaws.com/wiki_sample_snapshot/labels.csv) files from AWS S3 Bucket and load the data in Snowflake.
+
 
 ### STEP 4 : Image Repository Creation - *Copy Paste Output to SF Worksheet and Run*
 
