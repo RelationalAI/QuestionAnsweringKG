@@ -1,8 +1,5 @@
 # KGQA: Question Answering on Knowledge Graphs Using RelationalAI and Snowflake Cortex AI
 
-[Here](https://github.com/jlscheerer/kgqa/tree/main) is the link to the original implementation from the paper [QirK: Question Answering via Intermediate Representation on Knowledge Graphs](https://arxiv.org/abs/2408.07494). 
-
-
 Knowledge graphs are a useful structure to use to encode information about a particular domain. They allow for explicit inspection of the data encoded and the ability to reason over the relations. However, writing a query against a knowledge graph can be more challenging than other systems given that they generally lack a natural language interface. In order to query over a knowledge graph such as the one created by Wikidata, the user must know the specialized syntax of SPARQL as well as the knowledge graph representation of the entities and relations. For example, the concept of a hospital in wikidata is represented internally as Q16917.
 
 **QirK allows users to query a knowledge graph (KG) using natural language.** This enables a user to run a query over a knowledge graph by simply stating the question.
@@ -15,6 +12,8 @@ This demo will create a Snowflake service using Snowpark Container Services ( SP
 ....
 
 Additional examples in the demo notebook.
+
+*This work is a partial reimplementation of the [QirK: Question Answering via Intermediate Representation on Knowledge Graphs paper](https://arxiv.org/abs/2408.07494). The implementation of the paper can be found [here]('https://github.com/jlscheerer/kgqa/tree/main').*
 
 ----------
 
