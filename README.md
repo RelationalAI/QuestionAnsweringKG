@@ -2,7 +2,7 @@
 
 Knowledge graphs are a useful structure to use to encode information about a particular domain. They allow for explicit inspection of the data encoded and the ability to reason over the relations. However, writing a query against a knowledge graph can be more challenging than other systems given that they generally lack a natural language interface. In order to query over a knowledge graph such as the one created by Wikidata, the user must know the specialized syntax of SPARQL as well as the knowledge graph representation of the entities and relations. For example, the concept of a hospital in wikidata is represented internally as Q16917.
 
-**QirK allows users to query a knowledge graph (KG) using natural language.** This enables a user to run a query over a knowledge graph by simply stating the question.
+**KGQA allows users to query a knowledge graph (KG) using natural language.** This enables a user to run a query over a knowledge graph by simply stating the question.
 
 This demo will create a Snowflake service using Snowpark Container Services ( SPCS ), Snowflake's LLM service provided by their Cortex product and RelationalAI, a Knowledge Graph Coprocessor embedded inside of Snowflake, to allow a user to ask the following questions on a subset of Wikidata:
 
