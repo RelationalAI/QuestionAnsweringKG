@@ -13,7 +13,7 @@ This demo will create a Snowflake service using Snowpark Container Services ( SP
 
 Additional examples in the demo notebook.
 
-*This work is a partial reimplementation of the [QirK: Question Answering via Intermediate Representation on Knowledge Graphs paper](https://arxiv.org/abs/2408.07494). The implementation of the paper can be found [here]('https://github.com/jlscheerer/kgqa/tree/main').*
+*This work is a partial reimplementation of the [QirK: Question Answering via Intermediate Representation on Knowledge Graphs paper](https://arxiv.org/abs/2408.07494). The implementation of the paper can be found [here](https://github.com/jlscheerer/kgqa/tree/main).*
 
 ----------
 
