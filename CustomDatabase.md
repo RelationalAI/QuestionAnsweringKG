@@ -29,13 +29,15 @@ cd <your_project_directory>/kgqa_docker/
 
 *Execute the below **sf_db_initialization** script to produce SQL File to load and populate the Database and Tables in Snowflake ( copy-paste on Snowflake SQL Worksheet and Run)*
 
-> **_NOTE:_** To execute SQL commands in Snowflake Worksheet, you first need to select a database. Initially, this could be any database. Later in the script, you will create a custom database and switch to it for subsequent commands.
+> **_NOTE:_** 
+- To execute SQL commands in Snowflake Worksheet, you first need to select a database. Initially, this could be any database. Later in the script, you will create a custom database and switch to it for subsequent commands. <br>
+- You may already have your custom data in Snowflake, as outlined in the [DB File](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/kgqa_demo_setup/kgqa_setup/sf_db_initialization.py). The setup requires four tables. For the schema details, refer to the "CREATE OR REPLACE TABLE..." commands in the file.
+
 
 ```sh
 python3 $SETUP_PATH/setup.py --config $SETUP_PATH/config.json --output_dir $SETUP_PATH/ sf_db_initialization
 ```
 
-**You may already have your custom data in Snowflake, as outlined in the [DB File](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/kgqa_demo_setup/kgqa_setup/sf_db_initialization.py). The setup requires four tables. For the schema details, refer to the "Create or replace table..." commands in the file.**
 
 #### STEP 4 : Image Repository Creation - *Copy Paste Output to SF Worksheet and Run*
 
