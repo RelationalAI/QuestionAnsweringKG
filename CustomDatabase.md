@@ -35,6 +35,8 @@ cd <your_project_directory>/kgqa_docker/
 python3 $SETUP_PATH/setup.py --config $SETUP_PATH/config.json --output_dir $SETUP_PATH/ sf_db_initialization
 ```
 
+**You may already have your custom data in Snowflake, as outlined in the [DB File](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/kgqa_demo_setup/kgqa_setup/sf_db_initialization.py). The setup requires four tables. For the schema details, refer to the "Create or replace table..." commands in the file.**
+
 #### STEP 4 : Image Repository Creation - *Copy Paste Output to SF Worksheet and Run*
 
 An Image Repository in Snowflake is a storage location where you can store and manage container images. These images are like snapshots of applications and their environments, which can be run on Snowflake's platform.
