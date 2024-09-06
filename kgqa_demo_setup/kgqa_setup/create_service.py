@@ -90,7 +90,7 @@ ENDPOINT='service-endpoint'
 AS '/getir';
 
 
-CREATE OR REPLACE FUNCTION make_ir_excecutable(nl varchar, model varchar)
+CREATE OR REPLACE FUNCTION make_ir_executable(nl varchar, model varchar)
 RETURNS VARIANT
 SERVICE = '{config['image_service']['service_name']}'
 ENDPOINT='service-endpoint'
@@ -109,7 +109,7 @@ AS '/getquery';
 -- The second parameter is the model name. We have developed the pipeline using 'e5-base-v2' and 'llama3.1-70b.' Changing the model could affect the results. For more information, please refer to the [Snowflake documentation](https://docs.snowflake.com/en/user-guide/snowflake-cortex/llm-functions#availability).
 
 SELECT generate_ir('Name a movie whose director is the sibling of one of the cast members.','llama3.1-70b') as result;
-SELECT make_ir_excecutable('m: director(m, x); cast_member(m, y); sibling(x, y)','e5-base-v2') as result;
+SELECT make_ir_executable('m: director(m, x); cast_member(m, y); sibling(x, y)','e5-base-v2') as result;
 SELECT generate_query('Name a movie whose producer is the sibling of one of the cast members.','m: producer(m, x); cast member(m, y); sibling(x, y)','[{"producer": ["P162", "P1431"]}, {"cast member": ["P161", "P674"]}, {"sibling": ["P3373", "P8810"]}]','llama3.1-70b') as result;
     """
 
