@@ -95,9 +95,24 @@ Now, we are all set to run the Demo notebook!
 
 ## Demo Notebook 
 
-- Run the ['Notebook'](./KGQA_DEMO/notebook_app.ipynb) to play with our pipeline
+- Open a SQL Worksheet and execute the following command on your defined database and schema. 
 
-> **_NOTE:_** After running the 1st cell, you will be prompted to enter your Snowflake account password. Please check the top-center of the screen to enter the password. 
+```sql
+USE ROLE ACCOUNTADMIN; 
+
+CREATE OR REPLACE API INTEGRATION git_api_integration
+  API_PROVIDER = git_https_api
+  API_ALLOWED_PREFIXES = ('https://github.com/RelationalAI')
+  ENABLED = TRUE;
+```
+
+- Then, follow the instructions [here](https://docs.snowflake.com/en/developer-guide/git/git-setting-up#label-integrating-git-repository-api-integration) to create a git repository stage in Snowflake. *NOTE - No secret is needed, since it is a public repository.*
+    - Remote Repository URL - https://github.com/RelationalAI/QuestionAnsweringKG.git
+
+
+- Go to https://app.snowflake.com and select + Create Projects > Notebook Dropdown > Create from Repository. Navigate to the Git repository created in previous step, and select [KGQA_DEMO->notebook_app.ipynb]((./KGQA_DEMO/notebook_app.ipynb)).
+
+- Run the **KGQA Demo Snowflake Notebook** to play with our pipeline
 
 ------------------------------------------------------------------
 
