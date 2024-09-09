@@ -31,7 +31,7 @@ Follow the below steps to launch End-to-End Demo Setup.
 
 
 ```sh
-export SETUP_PATH="<your_project_directory>/kgqa_demo_setup/kgqa_setup"
+export SETUP_PATH="<your_project_directory>/KGQA_DEMO/kgqa_demo_setup"
 ```
 
 
@@ -42,7 +42,7 @@ cd $SETUP_PATH
 
 #### STEP 2 : Populate all Snowflake config parameters 
 
-- Update the config parameters in the config file ['config.json'](./kgqa_demo_setup/kgqa_setup/config.json)
+- Update the config parameters in the config file ['config.json'](./KGQA_DEMO/kgqa_demo_setup/config.json)
 > **_NOTE:_** Anything prefixed with **temp_** can be customized by the user, along with **account and sf_login_email**. *Everything else should remain unchanged*.
 
 #### STEP 3 : Initializing database in Snowflake - *Copy Paste Output to SF Worksheet and Run*
@@ -95,7 +95,7 @@ Now, we are all set to run the Demo notebook!
 
 ## Demo Notebook 
 
-- Run the ['Notebook'](./kgqa_demo_setup/kgqa_demo_nb/kgqa_demo.ipynb) to play with our pipeline
+- Run the ['Notebook'](./KGQA_DEMO/notebook_app.ipynb) to play with our pipeline
 
 > **_NOTE:_** After running the 1st cell, you will be prompted to enter your Snowflake account password. Please check the top-center of the screen to enter the password. 
 
