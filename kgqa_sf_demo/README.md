@@ -1,1 +1,0 @@
-This will contain instructions for running demo notebook on Snowflake. 
