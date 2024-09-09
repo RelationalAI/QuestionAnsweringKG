@@ -95,7 +95,7 @@ Now, we are all set to run the Demo notebook!
 
 ## Demo Notebook 
 
-- Open a SQL Worksheet and execute the following command on your defined database and schema. 
+- Open a SQL Worksheet on Snowflake and execute the following command on your database and schema as defined in the [config.json](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/KGQA_DEMO/kgqa_demo_setup/config.json). 
 
 ```sql
 USE ROLE ACCOUNTADMIN; 
