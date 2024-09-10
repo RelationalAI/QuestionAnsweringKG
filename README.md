@@ -111,13 +111,13 @@ CREATE OR REPLACE API INTEGRATION git_api_integration
 
 
 - Go to [https://app.snowflake.com](https://app.snowflake.com) and under Projects->Notebooks, on the top right corner in Notebook Dropdown, select *Create from Repository*. 
-    - For *File Location in Repository* , navigate to the Git repository stage created in previous step, and select [KGQA_DEMO->notebook_app.ipynb](./KGQA_DEMO/notebook_app.ipynb). 
+    - For *File Location in Repository* , navigate to the Git repository stage created in previous step, and select *KGQA_DEMO->kgqa_demo.ipynb*. 
     - Fill the rest of the details as defined in the [config.json](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/KGQA_DEMO/kgqa_demo_setup/config.json). 
 
 - Load RelationalAI in Snowflake Notebook using [Installation Guide](https://relational.ai/docs/native_app/installation#ii-set-up-the-rai-native-app). 
-    - *Place the `relationalai.zip` file, as specified in the instructions, in the same directory as `notebook_app.ipynb` within Snowflake.*
+    - *Place the `relationalai.zip` file, as specified in the instructions, in the same directory as `kgqa_demo.ipynb` within Snowflake.*
     
-- Run the [KGQA Demo Notebook](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/KGQA_DEMO/notebook_app.ipynb) in Snowflake to play with our pipeline!
+- Run the [KGQA Demo Notebook](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/KGQA_DEMO/kgqa_demo.ipynb) in Snowflake to play with our pipeline!
 
 ------------------------------------------------------------------
 
