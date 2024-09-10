@@ -6,14 +6,14 @@ from typing import Any, Dict, List, Tuple, Optional
 
 def execute_query(pyrel_query: str, context: Dict[str, Any]) -> List: 
     """
-    Executes the given PyRel query and returns the output.
+    Executes the given RelationalAI Python query and returns the output.
 
     Args:
-        pyrel_query (str): The PyRel query to be executed.
+        pyrel_query (str): The RelationalAI Python query to be executed.
         context (dict): Additional context variables required for executing the query
 
     Returns:
-        list: The output of the executed PyRel query.
+        list: The output of the executed RelationalAI Python query.
     """
 
     old_stdout = sys.stdout
@@ -21,7 +21,7 @@ def execute_query(pyrel_query: str, context: Dict[str, Any]) -> List:
     sys.stdout = new_stdout
 
     try:
-        # Execute the PyRel query within the provided context
+        # Execute the RelationalAI Python query within the provided context
         exec(pyrel_query, context)
     finally:
         # Restore the original stdout
@@ -80,7 +80,7 @@ class TripletClause:
 
 def reformat_match_output(raw_output: Dict[str, List[List[Any]]]) -> Tuple[List[Dict], Dict[int, Dict]]:
     """    
-    Reformats the output of the FAISS and prepare it for PyRel generation step
+    Reformats the output of the FAISS and prepare it for RelationalAI Python generation step
         
         Args:
             raw_output (Dict[str, List[List[Any]]]): The FAISS output as a dictionary where the value is a list of lists.
