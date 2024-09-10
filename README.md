@@ -31,7 +31,7 @@ Follow the below steps to launch End-to-End Demo Setup.
 
 
 ```sh
-export SETUP_PATH="<your_project_directory>/KGQA_DEMO/kgqa_demo_setup"
+export SETUP_PATH="<your_project_directory>/kgqa_demo/kgqa_demo_setup"
 ```
 
 
@@ -42,7 +42,7 @@ cd $SETUP_PATH
 
 #### STEP 2 : Populate all Snowflake config parameters 
 
-- Update the config parameters in the config file ['config.json'](./KGQA_DEMO/kgqa_demo_setup/config.json)
+- Update the config parameters in the config file ['config.json'](./kgqa_demo/kgqa_demo_setup/config.json)
 > **_NOTE:_** Anything prefixed with **temp_** can be customized by the user, along with **account and sf_login_email**. *Everything else should remain unchanged*.
 
 #### STEP 3 : Initializing database in Snowflake - *Copy Paste Output to SF Worksheet and Run*
@@ -95,7 +95,7 @@ Now, we are all set to run the Demo notebook!
 
 ## Demo Notebook 
 
-- Open a SQL Worksheet on Snowflake and execute the following command on your database and schema as defined in the [config.json](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/KGQA_DEMO/kgqa_demo_setup/config.json). 
+- Open a SQL Worksheet on Snowflake and execute the following command on your database and schema as defined in the [config.json](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/kgqa_demo/kgqa_demo_setup/config.json). 
 
 ```sql
 USE ROLE ACCOUNTADMIN; 
@@ -112,12 +112,12 @@ CREATE OR REPLACE API INTEGRATION git_api_integration
 
 - Go to [https://app.snowflake.com](https://app.snowflake.com) and under Projects->Notebooks, on the top right corner in Notebook Dropdown, select *Create from Repository*. 
     - For *File Location in Repository* , navigate to the Git repository stage created in previous step, and select *KGQA_DEMO->kgqa_demo.ipynb*. 
-    - Fill the rest of the details as defined in the [config.json](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/KGQA_DEMO/kgqa_demo_setup/config.json). 
+    - Fill the rest of the details as defined in the [config.json](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/kgqa_demo/kgqa_demo_setup/config.json). 
 
 - Load RelationalAI in Snowflake Notebook using [Installation Guide](https://relational.ai/docs/native_app/installation#ii-set-up-the-rai-native-app). 
     - *Place the `relationalai.zip` file, as specified in the instructions, in the same directory as `kgqa_demo.ipynb` within Snowflake.*
     
-- Run the [KGQA Demo Notebook](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/KGQA_DEMO/kgqa_demo.ipynb) in Snowflake to play with our pipeline!
+- Run the [KGQA Demo Notebook](https://github.com/RelationalAI/QuestionAnsweringKG/blob/main/kgqa_demo/kgqa_demo.ipynb) in Snowflake to play with our pipeline!
 
 ------------------------------------------------------------------
 
